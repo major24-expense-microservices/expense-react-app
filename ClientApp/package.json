@@ -2,6 +2,9 @@
   "name": "course-mgmt-pluralsite",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "8.0.0"
+  },
   "scripts": {
     "start": "run-p start:dev start:api",
     "start:dev": "webpack-dev-server --config webpack.config.dev.js --port 3000",
