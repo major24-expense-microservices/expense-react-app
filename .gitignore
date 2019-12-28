@@ -3,9 +3,6 @@
 
 */bin
 */obj
-appsettings.Development.json
-appsettings.Production.json
-appsettings.json
 
 # User-specific files
 *.suo
@@ -23,7 +20,6 @@ appsettings.json
 [Rr]eleases/
 x64/
 x86/
-build/
 bld/
 bin/
 Bin/
