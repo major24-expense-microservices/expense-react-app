@@ -120,7 +120,6 @@ export function ManageExpenseContainer({
       <h3 className="display-5">Expense Report</h3>
       {/* <p>={message.info && <div className="alert alert-success">{message.info}</div>}</p>
       <p>=={message.error && <div className="alert alert-danger">{message.error}</div>}</p> */}
-      <p>={JSON.stringify(expenseResult)}</p>
       {loading ? (
         <Spinner />
       ) : (

@@ -14,13 +14,7 @@
     "test:ci": "jest",
     "clean:build": "rimraf ./build && mkdir build",
     "prebuild": "run-p clean:build test:ci",
-    "build": "webpack --config webpack.config.prod",
-    "postbuild": "run-p start:api serve:build",
-    "serve:build": "http-server -p 8081 ./build -o http://localhost:8081/index.html",
-    "start:react": "react-scripts start",
-    "build:react": "react-scripts build",
-    "test:react": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build": "webpack --config webpack.config.prod"
   },
   "dependencies": {
     "axios": "^0.19.0",

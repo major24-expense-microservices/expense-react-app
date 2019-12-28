@@ -12,7 +12,6 @@ export default {
   transactions: [],
   expense: {},
   expenseResult: '',
-  loggedIn: false,
   auth: {
     loggedIn: false,
     userId: '',
