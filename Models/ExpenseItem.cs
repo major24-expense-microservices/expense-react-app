@@ -7,7 +7,7 @@ namespace expense_react_app.Models
 {
     public class ExpenseItem
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public int ExpenseId { get; set; }
         public string TransType { get; set; }
         public string Description { get; set; }

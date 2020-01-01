@@ -28,7 +28,20 @@ namespace expense_react_app.Controllers
         {
             try
             {
+                //// UpdateTransactions(2, expense);
+                // SendEmail(expense.User, 2);
+                // return null;
                 Result<int> result = await Save(expense);
+                if (result.IsSuccess)
+                {
+                    int expenseId = result.Entity;
+                    // Update transactions with 'Processed' flag.
+                    // Betterway to be: SQL server should trigger a function call (http trigger)
+                    // As of now Azure does not support, so the work around..
+                    UpdateTransactions(expenseId, expense);
+                    // If success send email as well..
+                    SendEmail(expense.User, expenseId);
+                }
                 return result;
             }
             catch (Exception ex)
@@ -68,7 +81,79 @@ namespace expense_react_app.Controllers
             }
         }
 
+        private async void UpdateTransactions(int expenseId, Expense expense)
+        {
+            // Fire and forget
+            // Create expense items to reflect payload to be sent..
+            List<TransactionStatus> list = new List<TransactionStatus>();
+            foreach(ExpenseItem item in expense.ExpenseItems)
+            {
+                if (item.TransType != "OOP")
+                {
+                    list.Add(new TransactionStatus() { Id = item.Id, Status = "Processed" });
+                }
+            }
 
+            try
+            {
+                string resourceUri = _config.GetSection("api:transaction").GetSection("postUpdateTransactionStatus").Value;
+                string url = $"{ _config.GetSection("api:transaction").GetSection("baseUrl").Value}{resourceUri}";
+                using (var client = new HttpClient())
+                using (var request = new HttpRequestMessage(HttpMethod.Post, url))
+                using (var httpContent = new UtilHttpContent().CreateHttpContent(list.ToArray()))
+                {
+                    request.Content = httpContent;
+                    using (var response = await client
+                        .SendAsync(request, HttpCompletionOption.ResponseHeadersRead))
+                    {
+                        if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            // var content = await response.Content.ReadAsStringAsync();
+                            // return StatusCode((int)response.StatusCode, content);
+                            // LOG Success
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                // LOG ERROR
+            }
+        }
+
+        private async void SendEmail(User user, int expenseId)
+        {
+            // Fire and forget
+            try
+            {
+                string resourceUri = _config.GetSection("api:expense").GetSection("postSendEmail").Value;
+                string url = $"{ _config.GetSection("api:expense").GetSection("baseUrl").Value}{resourceUri}";
+                RequestSendEmail reqSendEmail = new RequestSendEmail() { user = user, expenseId = expenseId };
+
+                using (var client = new HttpClient())
+                using (var request = new HttpRequestMessage(HttpMethod.Post, url))
+                using (var httpContent = new UtilHttpContent().CreateHttpContent(reqSendEmail))
+                {
+                    request.Content = httpContent;
+                    using (var response = await client
+                        .SendAsync(request, HttpCompletionOption.ResponseHeadersRead))
+                    {
+                        if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            // var content = await response.Content.ReadAsStringAsync();
+                            // return StatusCode((int)response.StatusCode, content);
+                            // LOG Success
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                // LOG ERROR
+            }
+        }
 
     }
 }

@@ -1,5 +1,6 @@
 import { handleResponse, handleError } from "./apiUtils";
-const baseUrl = process.env.API_URL + "/authentication"; // API URL"https://localhost:44303/api/users"; //process.env.API_URL + "/courses/";
+const baseUrl = process.env.API_URL + "/authentication";
+// DIRECT REST API URL"https://localhost:44303/api/users";
 
 export function authenticateUser(userCred) {
   //---------------------------------------------------------------------------------------------------
@@ -11,6 +12,7 @@ export function authenticateUser(userCred) {
     return getMockAuthenticationResponse(true);
   }
   //---------------------------------------------------------------------------------------------------
+  
   // REAL Request
   return fetch(baseUrl, {
     method: "POST", // POST for create, PUT to update when id already exists.
