@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { saveUser } from "../../redux/actions/userActions";
@@ -9,10 +9,25 @@ export function ManageUserContainer({
   saveUser,
   lookup,
   history,
+  expenseResult,
    ...props }) {
   const [user, setUser] = useState({ ...props.user });
   const [errors, setErrors] = useState({ ...props.errors });
   const [ saving, setSaving ] = useState(false);
+
+  useEffect(() => {
+    if (expenseResult) {
+      if (expenseResult.isSuccess) {
+        const message = "Success-User Info has been saved:";
+        // clearTransaction();
+        setSaving(false);
+        history.push({ pathname: '/show-message', state: {message: message } });
+      } else {
+        const message = "Error: " + expenseResult.error;
+        history.push({ pathname: '/show-message', state: {message: message } });
+      }
+    }
+  }, [expenseResult]);
 
   // event handlers
   function handleChange(event) {
@@ -42,13 +57,14 @@ export function ManageUserContainer({
     setSaving(true);
     // SPECIAL CHG for JSON Server. It requires id to save and lookup
     user.id = user.userId;
-    saveUser(user).then(() => {
-      toast.success("User Info has been saved.");
-      history.push("/user-profile");
+    saveUser(user).then((resp) => {
+      console.log('>>>>', resp);
+      // toast.success("User Info has been saved.");
+      // history.push("/user-profile");
     }).catch(error => {
       console.log('>>>', error);
       setSaving(false);
-      setErrors({ onSave: error.message })
+      // setErrors({ onSave: error.message })
     })
   }
 
@@ -70,13 +86,15 @@ ManageUserContainer.propTypes = {
   errors: PropTypes.object,
   saveUser: PropTypes.func.isRequired,
   lookup: PropTypes.object.isRequired,
+  expenseResult: PropTypes.string,
   history: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
   return {
     user: state.user,
-    lookup: state.lookup
+    lookup: state.lookup,
+    expenseResult: state.expenseResult
   };
 }
 const mapDispatchToProps = {

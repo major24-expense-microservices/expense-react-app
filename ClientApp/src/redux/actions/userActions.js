@@ -5,8 +5,11 @@ import { beginApiCall, apiCallError } from './apiStatusActions';
 export function loadUserSuccess(user) {
   return { type: types.LOAD_USER_SUCCESS, user: user };
 }
-export function createUserSuccess(user) {
-  return { type: types.CREATE_USER_SUCCESS, user };
+export function createUserSuccess(expenseResult) {
+  return { type: types.CREATE_EXPENSE_SUCCESS, expenseResult };
+}
+export function createUserFailure(expenseResult) {
+  return { type: types.CREATE_EXPENSE_FAILURE, expenseResult };
 }
 export function clearUserSuccess() {
   return { type: types.CLEAR_USER, user: {} };
@@ -32,8 +35,20 @@ export function saveUser(user) {
   return function (dispatch) {
     dispatch(beginApiCall());
     return userApi.saveUser(user)
-      .then(savedUser => {
-          dispatch(createUserSuccess(savedUser));
+      .then(savedUserResult => {
+        console.log('>>>>>savedExpenseResult:', savedUserResult);
+        if (savedUserResult.isSuccess) {
+          dispatch(createUserSuccess(savedUserResult));
+        } else {
+          dispatch(apiCallError(savedUserResult.error));
+          dispatch(createUserFailure(savedUserResult));
+        }
+        // if (saveUser.isSuccess) {
+        //   dispatch(createUserSuccess(savedUser));
+        // } else {
+        //   return saveUser;
+        // }
+
       }).catch(error => {
         dispatch(apiCallError(error));
         throw error;

@@ -122,6 +122,16 @@
       "costCentre": "IT1000",
       "id": "user24",
       "createdAt": 1578028397028
+    },
+    {
+      "userId": "user13",
+      "password": "user13",
+      "firstName": "u13",
+      "lastName": "uu13",
+      "email": "majuurnalliah@gmail.com",
+      "costCentre": "IT1000",
+      "id": "user13",
+      "createdAt": 1578068899250
     }
   ],
   "transactions": [

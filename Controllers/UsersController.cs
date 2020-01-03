@@ -54,7 +54,7 @@ namespace expense_react_app.Controllers
 
         // POST: api/Users
         [HttpPost]
-        public async Task<ActionResult<Result>> Post(AddUserDto user)
+        public async Task<ActionResult<Result<string>>> Post(AddUserDto user)
         {
             try
             {
