@@ -174,7 +174,7 @@ ManageExpenseContainer.propTypes = {
   errors: PropTypes.object,
   deleteTransaction: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
-  expenseResult: PropTypes.object,
+  expenseResult: PropTypes.string,
   history: PropTypes.object.isRequired
 }
 

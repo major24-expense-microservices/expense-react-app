@@ -1,7 +1,24 @@
-import React from "react";
+import React, {useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-const ExpenseList = ({ transactions, onDeleteClick }) => (
+const ExpenseList = ({ transactions, onDeleteClick }) => {
+  const [subTotal, setSubTotal] = useState(0);
+  const totalSumStyle = {
+    fontSize: '18px',
+    color: 'darkgreen'
+  };
+
+  useEffect(() => {
+    if (transactions) {
+      let sum = 0;
+        transactions.map((e) => {
+          sum += Number(e.amount);
+        });
+        setSubTotal(sum.toFixed(2));
+    }
+  }, [])
+
+  return (
   <div className="content">
     <div id="grid">
       <div id="row-header" className="row p-2">
@@ -28,9 +45,17 @@ const ExpenseList = ({ transactions, onDeleteClick }) => (
           </div>
         )
       })}
+
+      <div className="row p-2">
+        <div className="col-sm-6">Total:</div>
+        <div className="col-sm-2 text-right">
+          <span style={totalSumStyle}>{subTotal}</span></div>
+      </div>
+
     </div>
   </div>
-);
+  );
+};
 
 ExpenseList.propTypes = {
   transactions: PropTypes.array.isRequired,

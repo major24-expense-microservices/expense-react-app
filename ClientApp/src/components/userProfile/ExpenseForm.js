@@ -46,6 +46,7 @@ const ExpenseForm = ({
     transaction.id = getGuid();
     transaction.userId = user.userId;
     transaction.transType = 'OOP';
+    transaction.amount = Number(transaction.amount).toFixed(2);
     addTransaction(transaction);
     history.push('/manage-expense');
   }

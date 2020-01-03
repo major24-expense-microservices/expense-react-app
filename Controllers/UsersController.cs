@@ -50,29 +50,45 @@ namespace expense_react_app.Controllers
             }
         }
 
-        // GET: api/Users
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+
 
         // POST: api/Users
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult<Result>> Post(AddUserDto user)
         {
+            try
+            {
+                string resourseUri = string.Format(_config.GetSection("api:userProfile").GetSection("postUser").Value);
+                string url = $"{ _config.GetSection("api:userProfile").GetSection("baseUrl").Value}{resourseUri}";
+                using (var client = new HttpClient())
+                using (var request = new HttpRequestMessage(HttpMethod.Post, url))
+                using (var httpContent = new UtilHttpContent().CreateHttpContent(user))
+                {
+                    request.Content = httpContent;
+                    using (var response = await client
+                        .SendAsync(request, HttpCompletionOption.ResponseHeadersRead))
+                    {
+                        if (response.StatusCode == System.Net.HttpStatusCode.OK ||
+                            response.StatusCode == System.Net.HttpStatusCode.Created)
+                        {
+                            Result<string> result = await response.Content.ReadAsAsync<Result<string>>();
+                            return result;
+                        }
+                        else
+                        {
+                            var content = await response.Content.ReadAsStringAsync();
+                            Result<string> result = new Result<string>();
+                            result.Error = content;
+                            return result;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error fetching user " + ex.Message);
+            }
         }
 
-        // PUT: api/Users/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

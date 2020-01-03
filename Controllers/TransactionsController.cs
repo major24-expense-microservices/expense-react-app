@@ -44,7 +44,6 @@ namespace expense_react_app.Controllers
                         {
                             Result<string> result = await response.Content.ReadAsAsync<Result<string>>();
                             return result;
-
                         }
                         else
                         {
