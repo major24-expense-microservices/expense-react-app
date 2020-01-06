@@ -17,3 +17,5 @@ Note: Azure CI/CD pipeline has been set. but now throws an error needs to be loo
 ##### Azure Queue create and store PDF document
 ##### Azure SendGrid Email
 
+Production: Azure - Ensure all these services are running in Azure cloud<br />
+Development: Ensure to run all REST Apis running in its localhost. Build the app in clientApp and F5 to launch for development.
