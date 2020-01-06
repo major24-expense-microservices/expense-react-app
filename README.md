@@ -9,11 +9,11 @@ First build the 'ClientApp'<br />
 Open Visual Studio and use 'Publish' to publish to Azure cloud.<br />
 Note: Azure CI/CD pipeline has been set. but now throws an error needs to be looked at.
 
-### Dependcy
-#### User Profile Microservice
-#### Transaction Microservice
-#### Expense Microservice
-#### SQL Server for three different microservices
-#### Azure Queue create and store PDF document
-#### Azure SendGrid Email
+### Dependency
+##### User Profile Microservice
+##### Transaction Microservice
+##### Expense Microservice
+##### SQL Server for three different microservices
+##### Azure Queue create and store PDF document
+##### Azure SendGrid Email
 
