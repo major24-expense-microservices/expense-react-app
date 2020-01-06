@@ -22,10 +22,8 @@ Development: Ensure to run all REST Apis running in its localhost. Build the app
 
 #### Developer Notes
 To locally test posted transactions queue:<br />
-iwr -Method POST -Uri https://ms-expense-react-func-app.azurewebsites.net/api/onExpSubmittedAddToQueToUpdTrans?code=<<get code from azure>> -Headers @{ "content-type"="application/json" } -Body '{"id": 2, "expenseItems": [{ "id": "aa2612d0-626c-4fbc-bd2c-052837a9fa0e", "status": "Processed" }, {"id": "c5204ebf-23fe-40e3-b582-4887cebdf796", "status": "Processed"}]}'`<br/><br />
+iwr -Method POST -Uri https://ms-expense-react-func-app.azurewebsites.net/api/onExpSubmittedAddToQueToUpdTrans?code=<<...>> -Headers @{ "content-type"="application/json" } -Body '{"id": 2, "expenseItems": [{ "id": "aa2612d0-626c-4fbc-bd2c-052837a9fa0e", "status": "Processed" }, {"id": "c5204ebf-23fe-40e3-b582-4887cebdf796", "status": "Processed"}]}'`<br/><br />
 
-To test send email queue<br />
+To locally test send email queue:<br />
 iwr -Method POST -Uri https://ms-expense-react-func-app.azurewebsites.net/api/onExpSubmittedAddToQueToCreatePdfAndSendMail?code=<<...>> -Headers @{ "content-type"="application/json" } -Body '{"user": {"userId": "user1"},"id": 2}'`<br/><br />
-
-
 
